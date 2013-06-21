@@ -8,6 +8,16 @@ public class Cliente {
 	private Endereco endereco;
 	private ArrayList<Celular> celulares;
 	
+	public Cliente(){
+
+	}
+	
+	public Cliente(ArrayList<Celular> celulares, String nome, Endereco endereco){
+		this.celulares = celulares;
+		this.nome = nome;
+		this.endereco = endereco;
+	}
+	
 	public String getNome() {
 		return nome;
 	}
