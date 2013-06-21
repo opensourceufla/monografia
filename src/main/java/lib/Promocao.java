@@ -110,6 +110,11 @@ public class Promocao {
 
 	public void setPlano(Plano plano) {
 		this.plano = plano;
+	}
+
+	public boolean disponivelPara(Celular celular) {
+		return celular.getTipo().equals("Smartphone") ? 
+				true : (this.tipo.equals("Minutos") || this.tipo.equals("Bonus"));
 	}	
 	
 }
