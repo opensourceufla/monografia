@@ -16,25 +16,29 @@ public class Celular {
 	
 	private boolean habilitado;
 
+	public Celular(){
+		
+	}
+
 	public Celular(String tipo, Plano plano, ArrayList<Promocao> promocoes) {
 		this.tipo = tipo;
 		this.plano = plano;
+		adicionarPromocoes(promocoes);
+		randomizarNumero();
+		this.habilitado = true;
+	}
+
+	private void adicionarPromocoes(ArrayList<Promocao> promocoes) {
 		for (Promocao p : promocoes) {
 			if (p.disponivelPara(this))
 				this.plano.getPromocoes().add(p);
 		}
-		this.randomizarNumero();
-		this.habilitado = true;
-	}
-	
-	public Celular(){
 	}
 	
 	private void randomizarNumero() {
 		Random gerador = new Random();
-		this.setNumero(gerador.nextInt(10000000));
+		this.setNumero(gerador.nextInt(100000000));
 	}
-	
 
 	public Cliente getCliente() {
 		return cliente;

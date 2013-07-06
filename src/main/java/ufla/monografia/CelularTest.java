@@ -14,8 +14,10 @@ import org.junit.Test;
 
 public class CelularTest {
 
-	Celular smart;
-	Celular regular;
+	Celular smartPre;
+	Celular regularPre;
+	Celular smartPos;
+	Celular regularPos;
 	Plano pre;
 	Plano pos;
 	ArrayList<Promocao> promocoes;
@@ -27,18 +29,19 @@ public class CelularTest {
 		promocoes.add(new Promocao("Uma Promocao de Internet", 0.5, 10, 0.125));
 		promocoes.add(new Promocao("Uma Promocao de Bonus", new Date(), 300, 10));
 		pre = new Plano(10, new Date(), new ArrayList<Promocao>());
+		pos = new Plano(10, new ArrayList<Promocao>());
+		smartPre = new Celular("Smartphone", pre, promocoes);
+		regularPre = new Celular("Regularphone", pre, promocoes);
+		regularPos = new Celular("Regularphone", pos, promocoes);
+		smartPos = new Celular("Smartphone", pos, promocoes);
 	}
 	
 	@Test
-	public void deveRandomizarNumero(){
-		smart = new Celular("Smartphone", pre, promocoes);
-		assertTrue(smart.getNumero() != 0);
-	}
-	
-	@Test
-	public void deveHabilitarSmartphoneTipoCartao() {
-		smart = new Celular("Smartphone", pre, promocoes);
-		assertTrue(smart.isHabilitado());
+	public void deveHabilitarQualquerCelularDeQualquerPlano() {
+		assertTrue(smartPre.isHabilitado());
+		assertTrue(smartPos.isHabilitado());
+		assertTrue(regularPre.isHabilitado());
+		assertTrue(regularPos.isHabilitado());
 	}
 
 }
