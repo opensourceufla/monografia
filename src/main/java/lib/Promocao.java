@@ -1,6 +1,6 @@
 package lib;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Promocao {
 
@@ -8,14 +8,13 @@ public class Promocao {
 	private double velocidade;
 	private double franquia;
 	private double velocidadeAlemDaFranquia;
-	private Date validade;
+	private GregorianCalendar validade;
 	private double quantidade;
 	private double limiteDiario;
 	private String tipo;
-	private Plano plano;
 
 	//minutos
-	public Promocao(String nome, Date validade, double quantidade){
+	public Promocao(String nome, GregorianCalendar validade, double quantidade){
 		this.nome = nome;
 		this.validade = validade;
 		this.quantidade = quantidade;
@@ -32,7 +31,7 @@ public class Promocao {
 	}
 
 	//bonus
-	public Promocao(String nome, Date validade, double quantidade, double limiteDiario) {
+	public Promocao(String nome, GregorianCalendar validade, double quantidade, double limiteDiario) {
 		this.nome = nome;
 		this.validade = validade;
 		this.quantidade = quantidade;
@@ -77,14 +76,6 @@ public class Promocao {
 		this.velocidadeAlemDaFranquia = velocidadeAlemDaFranquia;
 	}
 
-	public Date getValidade() {
-		return validade;
-	}
-
-	public void setValidade(Date validade) {
-		this.validade = validade;
-	}
-
 	public double getQuantidade() {
 		return quantidade;
 	}
@@ -109,12 +100,12 @@ public class Promocao {
 		this.tipo = tipo;
 	}
 
-	public Plano getPlano() {
-		return plano;
+	public GregorianCalendar getValidade() {
+		return validade;
 	}
 
-	public void setPlano(Plano plano) {
-		this.plano = plano;
+	public void setValidade(GregorianCalendar validade) {
+		this.validade = validade;
 	}
-	
+
 }

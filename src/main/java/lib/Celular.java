@@ -15,7 +15,7 @@ public class Celular {
 	private double creditos;
 
 	public Celular(){
-		
+		this.ligacoes = new ArrayList<Ligacao>();
 	}
 
 	public Celular(String tipo, Plano plano, ArrayList<Promocao> promocoes) {
@@ -23,6 +23,7 @@ public class Celular {
 		this.plano = plano;
 		adicionarPromocoes(promocoes);
 		randomizarNumero();
+		this.ligacoes = new ArrayList<Ligacao>();
 		this.habilitado = true;
 	}
 
@@ -47,6 +48,60 @@ public class Celular {
 		}
 	}
 
+	public void fazerLigacao(Ligacao ligacao) {
+		Promocao promocao = this.verificarSaldoDePromocao();
+		if (promocao.getTipo().equals("Minutos"))
+			this.fazerLigacaoUsandoMinutos(promocao, ligacao);
+		if (promocao.getTipo().equals("Bonus"))
+			this.fazerLigacaoUsandoBonus(promocao, ligacao);
+		if (promocao.getTipo().equals("Nenhum"))
+			this.fazerLigacaoSemPromocao(ligacao);
+	}
+	
+	private void fazerLigacaoUsandoBonus(Promocao promocao, Ligacao ligacao) {
+		double quantidadeFinal = promocao.getQuantidade() - (ligacao.getDuracao() * this.plano.getValorMinuto());
+		double limite = promocao.getLimiteDiario() - ligacao.getDuracao();
+		if (quantidadeFinal < 0){
+			promocao.setQuantidade(0);
+			fazerLigacaoSemPromocao(new Ligacao(ligacao.getNumeroCelular(), (-1 * quantidadeFinal), ligacao.getData()));
+		}
+		if (limite < 0){
+			promocao.setQuantidade(quantidadeFinal);
+			fazerLigacaoSemPromocao(new Ligacao(ligacao.getNumeroCelular(), (-1 * limite), ligacao.getData()));
+		}
+		if (limite > 0 && quantidadeFinal > 0){
+			promocao.setQuantidade(quantidadeFinal);
+			this.ligacoes.add(ligacao);
+		}
+	}
+
+	private void fazerLigacaoSemPromocao(Ligacao ligacao) {
+		if (this.creditos > ligacao.getDuracao() * this.plano.getValorMinuto()){
+			this.creditos -= (ligacao.getDuracao() * this.plano.getValorMinuto());
+			this.ligacoes.add(ligacao);
+		}
+	}
+
+	private void fazerLigacaoUsandoMinutos(Promocao promocao, Ligacao ligacao) {
+		double quantidadeFinal = promocao.getQuantidade() - ligacao.getDuracao();
+		if (quantidadeFinal < 0){
+			promocao.setQuantidade(0);
+			fazerLigacaoSemPromocao(new Ligacao(ligacao.getNumeroCelular(), (-1 * quantidadeFinal), ligacao.getData()));
+		}else{
+			promocao.setQuantidade(quantidadeFinal);
+			this.ligacoes.add(ligacao);
+		}
+	}
+
+	private Promocao verificarSaldoDePromocao(){
+		for (Promocao p : this.plano.getPromocoes()) {
+			if (!p.getTipo().equals("Internet"))
+				if ((p.getQuantidade() > 0) && (new GregorianCalendar().before(p.getValidade())))
+					return p;
+		}
+		return null;
+	}
+	
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -102,6 +157,7 @@ public class Celular {
 	public void setCreditos(double creditos) {
 		this.creditos = creditos;
 	}
+
 
 
 	

@@ -3,7 +3,7 @@ package ufla.monografia;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import lib.Celular;
 import lib.Promocao;
@@ -20,9 +20,9 @@ public class PromocaoTest {
 	
 	@Before
 	public void inicializar(){
-		minutos = new Promocao("Uma Promocao de Minutos", new Date(), 0);
+		minutos = new Promocao("Uma Promocao de Minutos", new GregorianCalendar(), 0);
 		internet = new Promocao("Uma Promocao de Internet", 0.5, 10, 0.125);
-		bonus = new Promocao("Uma Promocao de Bonus", new Date(), 300, 10);
+		bonus = new Promocao("Uma Promocao de Bonus", new GregorianCalendar(), 300, 10);
 		celular = new Celular();
 	}
 	

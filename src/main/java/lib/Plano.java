@@ -18,7 +18,8 @@ public class Plano {
 	}
 	
 	//pre
-	public Plano(double creditos, GregorianCalendar validade, ArrayList<Promocao> promocoes){
+	public Plano(double valorMinuto, double creditos, GregorianCalendar validade, ArrayList<Promocao> promocoes){
+		this.valorMinuto = valorMinuto;
 		this.creditosIniciais = creditos;
 		this.validade = validade;
 		this.promocoes = promocoes;

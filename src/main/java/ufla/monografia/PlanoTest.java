@@ -18,7 +18,7 @@ public class PlanoTest {
 	
 	@Test
 	public void deveCriarPlanoPrePago() {
-		plano = new Plano(10, new GregorianCalendar(), promocoes);
+		plano = new Plano(0.25, 10, new GregorianCalendar(), promocoes);
 		assertEquals(plano.getTipo(), "Pre-pago");
 	}
 
