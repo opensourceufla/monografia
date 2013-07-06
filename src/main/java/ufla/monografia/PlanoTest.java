@@ -1,9 +1,9 @@
 package ufla.monografia;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import lib.Plano;
 import lib.Promocao;
@@ -18,7 +18,7 @@ public class PlanoTest {
 	
 	@Test
 	public void deveCriarPlanoPrePago() {
-		plano = new Plano(10, new Date(), promocoes);
+		plano = new Plano(10, new GregorianCalendar(), promocoes);
 		assertEquals(plano.getTipo(), "Pre-pago");
 	}
 

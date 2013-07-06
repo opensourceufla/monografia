@@ -1,9 +1,10 @@
 package ufla.monografia;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import lib.Celular;
 import lib.Plano;
@@ -28,7 +29,7 @@ public class CelularTest {
 		promocoes.add(new Promocao("Uma Promocao de Minutos", new Date(), 0));
 		promocoes.add(new Promocao("Uma Promocao de Internet", 0.5, 10, 0.125));
 		promocoes.add(new Promocao("Uma Promocao de Bonus", new Date(), 300, 10));
-		pre = new Plano(10, new Date(), new ArrayList<Promocao>());
+		pre = new Plano(10, new GregorianCalendar(), new ArrayList<Promocao>());
 		pos = new Plano(10, new ArrayList<Promocao>());
 		smartPre = new Celular("Smartphone", pre, promocoes);
 		regularPre = new Celular("Regularphone", pre, promocoes);
@@ -42,6 +43,16 @@ public class CelularTest {
 		assertTrue(smartPos.isHabilitado());
 		assertTrue(regularPre.isHabilitado());
 		assertTrue(regularPos.isHabilitado());
+	}
+	
+	@Test
+	public void deveAdicionarCreditosAoCelularCartao(){
+		smartPre.adicionarCreditos(100);
+		regularPre.adicionarCreditos(100);
+		assertTrue(smartPre.getCreditos() > 10);
+		assertTrue(regularPre.getCreditos() > 10);
+		assertTrue(smartPre.getPlano().getValidade().after(new GregorianCalendar()));
+		assertTrue(regularPre.getPlano().getValidade().after(new GregorianCalendar()));
 	}
 
 }

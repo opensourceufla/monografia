@@ -1,14 +1,14 @@
 package lib;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class Plano {
 
 	private String nome;	
 	private double valorMinuto;
-	private double creditos;
-	private Date validade;
+	private double creditosIniciais;
+	private GregorianCalendar validade;
 	private int diaVencimento;
 	private ArrayList<Promocao> promocoes;
 	private String tipo;
@@ -18,8 +18,8 @@ public class Plano {
 	}
 	
 	//pre
-	public Plano(double creditos, Date validade, ArrayList<Promocao> promocoes){
-		this.creditos = creditos;
+	public Plano(double creditos, GregorianCalendar validade, ArrayList<Promocao> promocoes){
+		this.creditosIniciais = creditos;
 		this.validade = validade;
 		this.promocoes = promocoes;
 		this.tipo = "Pre-pago";
@@ -57,18 +57,18 @@ public class Plano {
 	}
 	
 	public double getCreditos() {
-		return creditos;
+		return creditosIniciais;
 	}
 	
 	public void setCreditos(double creditos) {
-		this.creditos = creditos;
+		this.creditosIniciais = creditos;
 	}
 	
-	public Date getValidade() {
+	public GregorianCalendar getValidade() {
 		return validade;
 	}
 	
-	public void setValidade(Date validade) {
+	public void setValidade(GregorianCalendar validade) {
 		this.validade = validade;
 	}
 	
