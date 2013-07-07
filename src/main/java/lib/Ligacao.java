@@ -12,10 +12,17 @@ public class Ligacao {
 		
 	}
 	
+	public Ligacao(double duracao, GregorianCalendar data){
+		this.duracao = duracao;
+		this.data = data;
+		this.tipo = "Internet";
+	}
+	
 	public Ligacao(int numeroCelular, double duracao, GregorianCalendar data){
 		this.numeroCelular = numeroCelular;
 		this.duracao = duracao;
 		this.data = data;
+		this.tipo = "Telefone";
 	}
 	
 
