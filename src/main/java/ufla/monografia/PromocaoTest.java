@@ -21,7 +21,7 @@ public class PromocaoTest {
 	@Before
 	public void inicializar(){
 		minutos = new Promocao("Uma Promocao de Minutos", new GregorianCalendar(), 0);
-		internet = new Promocao("Uma Promocao de Internet", 0.5, 10, 0.125);
+		internet = new Promocao("Uma Promocao de Internet", 100, new GregorianCalendar(), 0.5, 10, 0.125);
 		bonus = new Promocao("Uma Promocao de Bonus", new GregorianCalendar(), 300, 10);
 		celular = new Celular();
 	}

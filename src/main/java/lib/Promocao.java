@@ -22,7 +22,9 @@ public class Promocao {
 	}
 	
 	//internet
-	public Promocao(String nome, double velocidade, double franquia, double velocidadeAlemDaFranquia) {
+	public Promocao(String nome, double quantidade, GregorianCalendar validade, double velocidade, double franquia, double velocidadeAlemDaFranquia) {
+		this.quantidade = quantidade;
+		this.validade = validade;
 		this.nome = nome;
 		this.velocidade = velocidade;
 		this.franquia = franquia;

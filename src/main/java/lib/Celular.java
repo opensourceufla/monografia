@@ -50,9 +50,12 @@ public class Celular {
 
 	public void fazerLigacao(Ligacao ligacao) {
 		Promocao promocao = this.verificarSaldoDePromocao(ligacao);
-		if (promocao == null) fazerLigacaoSemPromocao(ligacao);
-		if (promocao.getTipo().equals("Minutos") || promocao.getTipo().equals("Internet")) fazerLigacaoUsandoMinutosOuInternet(promocao, ligacao);
-		if (promocao.getTipo().equals("Bonus"))	fazerLigacaoUsandoBonus(promocao, ligacao);
+		if (promocao == null){
+			fazerLigacaoSemPromocao(ligacao);
+		}else{
+			if (promocao.getTipo().equals("Minutos") || promocao.getTipo().equals("Internet")) fazerLigacaoUsandoMinutosOuInternet(promocao, ligacao);
+			if (promocao.getTipo().equals("Bonus"))	fazerLigacaoUsandoBonus(promocao, ligacao);
+		}
 	}
 
 	private Promocao verificarSaldoDePromocao(Ligacao ligacao){
@@ -67,7 +70,6 @@ public class Celular {
 				}
 			}
 		}
-		
 		return null;
 	}
 	
