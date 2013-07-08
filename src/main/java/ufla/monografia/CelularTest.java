@@ -36,6 +36,7 @@ public class CelularTest {
 	private ArrayList<Promocao> bonus;
 	private Celular preInternet;
 	private ArrayList<Promocao> internet;
+	private Celular preSemPromocao;
 
 	@Before
 	public void inicializar(){
@@ -56,6 +57,7 @@ public class CelularTest {
 		preMinutos = new Celular("Smartphone", new Plano(0.5, 100, new GregorianCalendar(), new ArrayList<Promocao>()), minutos);
 		preBonus = new Celular("Smartphone", new Plano(0.5, 100, new GregorianCalendar(), new ArrayList<Promocao>()), bonus);
 		preInternet = new Celular("Smartphone", new Plano(0.5, 100, new GregorianCalendar(), new ArrayList<Promocao>()), internet);
+		preSemPromocao = new Celular("Smartphone", new Plano(0.5, 100, new GregorianCalendar(), new ArrayList<Promocao>()), new ArrayList<Promocao>());
 	}
 
 	private void setPlanos() {
@@ -115,6 +117,13 @@ public class CelularTest {
 	public void deveRegistrarLigacaoInternetPre(){
 		preInternet.fazerLigacao(ligacaoInternet);
 		assertFalse(preInternet.getLigacoes().isEmpty());
+	}
+	
+	@Test
+	public void deveRegistrarLigacaoSemPromocaoPre(){
+		preSemPromocao.adicionarCreditos(1000);
+		preSemPromocao.fazerLigacao(ligacao);
+		assertFalse(preSemPromocao.getLigacoes().isEmpty());
 	}
 	
 }
