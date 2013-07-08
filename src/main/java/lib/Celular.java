@@ -61,11 +61,10 @@ public class Celular {
 	public void fazerLigcaoInternet(Ligacao ligacaoInternet) {
 		Promocao promocao = temPromocaoInternet();
 		if (promocao != null){
-			if(promocao.getQuantidade() > ligacaoInternet.getDuracao()){
+			if(promocao.getQuantidade() >= ligacaoInternet.getDuracao()){
 				promocao.setQuantidade(promocao.getQuantidade() - ligacaoInternet.getDuracao());
 			}else{
-				//TODO Fazer ligacao gastando o credito -- vai ficar para depois da festa \o/
-				promocao.setQuantidade(0);
+				fazerLigacaoSemPromocao(ligacaoInternet);
 			}
 		}
 		
