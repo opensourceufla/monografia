@@ -100,10 +100,10 @@ public class CelularTest {
 	
 	@Test
 	public void deveRegistrarLigacaoDeCelularPre(){
-		preBonus.fazerLigacaoTelefone(ligacao);
-		preMinutos.fazerLigacaoTelefone(ligacao);
+		preBonus.fazerLigacao(ligacao);
+		preMinutos.fazerLigacao(ligacao);
 		preSemPromocao.adicionarCreditos(1000);
-		preSemPromocao.fazerLigacaoTelefone(ligacao);
+		preSemPromocao.fazerLigacao(ligacao);
 		assertFalse(preBonus.getLigacoes().isEmpty());
 		assertFalse(preMinutos.getLigacoes().isEmpty());
 		assertFalse(preSemPromocao.getLigacoes().isEmpty());
@@ -111,7 +111,7 @@ public class CelularTest {
 		
 	@Test
 	public void deveRegistrarLigacaoDeInternet(){
-		smartPre.fazerLigcaoInternet(ligacaoInternet);
+		smartPre.fazerLigacaoInternet(ligacaoInternet);
 		assertFalse(smartPre.getLigacoes().isEmpty());
 	}
 	

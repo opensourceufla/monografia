@@ -48,52 +48,44 @@ public class Celular {
 		}
 	}
 
-	public void fazerLigacaoTelefone(Ligacao ligacao) {
-		Promocao promocao = this.verificarSaldoDePromocao();
-		if (promocao.getTipo().equals("Minutos"))
-			this.fazerLigacaoUsandoMinutos(promocao, ligacao);
-		if (promocao.getTipo().equals("Bonus"))
-			this.fazerLigacaoUsandoBonus(promocao, ligacao);
-		if (promocao.getTipo().equals("Nenhum"))
-			this.fazerLigacaoSemPromocao(ligacao);
+	public void fazerLigacao(Ligacao ligacao) {
+		Promocao promocao = this.verificarSaldoDePromocao(ligacao);
+		if (promocao == null) fazerLigacaoSemPromocao(ligacao);
+		if (promocao.getTipo().equals("Minutos") || promocao.getTipo().equals("Internet")) fazerLigacaoUsandoMinutosOuInternet(promocao, ligacao);
+		if (promocao.getTipo().equals("Bonus"))	fazerLigacaoUsandoBonus(promocao, ligacao);
 	}
 
-	public void fazerLigcaoInternet(Ligacao ligacaoInternet) {
-		Promocao promocao = temPromocaoInternet();
-		if (promocao != null){
-			if(promocao.getQuantidade() >= ligacaoInternet.getDuracao()){
-				promocao.setQuantidade(promocao.getQuantidade() - ligacaoInternet.getDuracao());
-			}else{
-				fazerLigacaoSemPromocao(ligacaoInternet);
+	private Promocao verificarSaldoDePromocao(Ligacao ligacao){
+		for (Promocao p : this.plano.getPromocoes()) {
+			if (new GregorianCalendar().before(p.getValidade())){
+				if (p.getTipo().equals(ligacao.getTipo())){ //verifica se a ligacao eh do tipo Internet
+					return p;
+				}else{
+					if (!p.getTipo().equals("Internet")){
+						return p;
+					}
+				}
 			}
 		}
 		
-	}
-
-	private Promocao temPromocaoInternet() {
-		for (Promocao p : this.plano.getPromocoes()) {
-			if (p.getTipo().equals("Internet")){
-				if (new GregorianCalendar().before(p.getValidade()))
-					return p;
-			}
-		}
 		return null;
 	}
 	
-	private void fazerLigacaoUsandoBonus(Promocao promocao, Ligacao ligacao) {
-		double quantidadeFinal = promocao.getQuantidade() - (ligacao.getDuracao() * this.plano.getValorMinuto());
-		double limite = promocao.getLimiteDiario() - ligacao.getDuracao();
-		if (quantidadeFinal < 0){
-			promocao.setQuantidade(0);
-			fazerLigacaoSemPromocao(new Ligacao(ligacao.getNumeroCelular(), (-1 * quantidadeFinal), ligacao.getData()));
-		}
-		if (limite < 0){
-			promocao.setQuantidade(quantidadeFinal);
-			fazerLigacaoSemPromocao(new Ligacao(ligacao.getNumeroCelular(), (-1 * limite), ligacao.getData()));
-		}
-		if (limite > 0 && quantidadeFinal > 0){
-			promocao.setQuantidade(quantidadeFinal);
+	public void fazerLigacaoUsandoMinutosOuInternet(Promocao promocao, Ligacao ligacao) {
+		if(promocao.getQuantidade() >= ligacao.getDuracao()){
+			promocao.setQuantidade(promocao.getQuantidade() - ligacao.getDuracao());
 			this.ligacoes.add(ligacao);
+		}else{
+			fazerLigacaoSemPromocao(ligacao);
+		}		
+	}
+	
+	private void fazerLigacaoUsandoBonus(Promocao promocao, Ligacao ligacao) {
+		if ((promocao.getLimiteDiario() >= ligacao.getDuracao()) && (promocao.getQuantidade() >= (ligacao.getDuracao() * this.plano.getValorMinuto()))){
+			promocao.setQuantidade(promocao.getQuantidade() - (ligacao.getDuracao() * this.plano.getValorMinuto()));
+			this.ligacoes.add(ligacao);
+		}else{
+			fazerLigacaoSemPromocao(ligacao);
 		}
 	}
 
@@ -103,29 +95,6 @@ public class Celular {
 			this.ligacoes.add(ligacao);
 		}
 	}
-
-	private void fazerLigacaoUsandoMinutos(Promocao promocao, Ligacao ligacao) {
-		double quantidadeFinal = promocao.getQuantidade() - ligacao.getDuracao();
-		if (quantidadeFinal < 0){
-			promocao.setQuantidade(0);
-			fazerLigacaoSemPromocao(new Ligacao(ligacao.getNumeroCelular(), (-1 * quantidadeFinal), ligacao.getData()));
-		}else{
-			promocao.setQuantidade(quantidadeFinal);
-			this.ligacoes.add(ligacao);
-		}
-	}
-
-	private Promocao verificarSaldoDePromocao(){
-		for (Promocao p : this.plano.getPromocoes()) {
-			if (!p.getTipo().equals("Internet")){
-				if (new GregorianCalendar().before(p.getValidade()))
-					return p;
-			}
-		}
-		return null;
-	}
-	
-	
 	
 	public Cliente getCliente() {
 		return cliente;
