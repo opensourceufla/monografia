@@ -127,7 +127,7 @@ public class Promocao {
 	}
 	
 	public String toString(){
-		return "Nome: " + nome + "\nTipo: " + tipo + "\n";
+		return "Nome: " + nome + "\nTipo: " + tipo + "\nValidade: " + validade.DAY_OF_MONTH + "\\" + validade.MONTH + "\\" +  validade.YEAR;
 	}
 
 }

@@ -231,5 +231,25 @@ public class Celular {
 	public String toString(){
 		return "Numero: " + numero + "\n" + plano.getNome() + "\n" + "Tipo: " + tipo + "\n";
 	}
+
+	public String informativo(){
+		String retorno = "";
+		if (this.plano.getValidade().before(new GregorianCalendar())){
+			retorno += "\nPlano " + plano.getNome() + " venceu.\n";
+		}
+		for (Promocao p : plano.getPromocoes()) {
+			if (p.getValidade().before(new GregorianCalendar())){
+				retorno += "\nPromocao " + p.getNome() + " venceu.\n";
+			}
+		}
+		return retorno;
+	}
 	
+	public String validadeDasPromocoes(){
+		String retorno = "";
+		for (Promocao p : plano.getPromocoes()) {
+			retorno += p.toString();
+		}
+		return retorno;
+	}
 }
