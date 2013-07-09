@@ -88,5 +88,13 @@ public class Plano {
 	public void setPromocoes(ArrayList<Promocao> promocoes) {
 		this.promocoes = promocoes;
 	}
-		
+
+	public String toString(){
+		String retorno = "Nome: " + nome + "\nValor minuto: " + valorMinuto + "\nTipo: " + tipo + "\n";
+		for (Promocao p : promocoes) {
+			retorno += p.toString();
+		}
+		return retorno;
+	}
+	
 }

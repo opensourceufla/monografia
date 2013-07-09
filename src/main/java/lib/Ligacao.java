@@ -4,6 +4,7 @@ import java.util.GregorianCalendar;
 public class Ligacao {
 
 	private double duracao;
+	private double valorCobrado;
 	private int numeroCelular;
 	private String tipo;
 	private GregorianCalendar data;
@@ -56,6 +57,14 @@ public class Ligacao {
 
 	public void setNumeroCelular(int numeroCelular) {
 		this.numeroCelular = numeroCelular;
+	}
+
+	public double getValorCobrado() {
+		return valorCobrado;
+	}
+
+	public void setValorCobrado(double valorCobrado) {
+		this.valorCobrado = valorCobrado;
 	}
 	
 	

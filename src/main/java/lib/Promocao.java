@@ -5,13 +5,20 @@ import java.util.GregorianCalendar;
 public class Promocao {
 
 	private String nome;
-	private double velocidade;
+	
+	//internet
 	private double franquia;
+	private double velocidade;
 	private double velocidadeAlemDaFranquia;
+	private double velocidadeAtual;
+	
+	//Geral
 	private GregorianCalendar validade;
 	private double quantidade;
-	private double limiteDiario;
 	private String tipo;
+
+	//Bonus
+	private double limiteDiario;
 
 	//minutos
 	public Promocao(String nome, GregorianCalendar validade, double quantidade){
@@ -29,6 +36,7 @@ public class Promocao {
 		this.velocidade = velocidade;
 		this.franquia = franquia;
 		this.velocidadeAlemDaFranquia = velocidadeAlemDaFranquia;
+		this.velocidadeAtual = velocidade;
 		this.tipo = "Internet";
 	}
 
@@ -108,6 +116,18 @@ public class Promocao {
 
 	public void setValidade(GregorianCalendar validade) {
 		this.validade = validade;
+	}
+
+	public double getVelocidadeAtual() {
+		return velocidadeAtual;
+	}
+
+	public void setVelocidadeAtual(double velocidadeAtual) {
+		this.velocidadeAtual = velocidadeAtual;
+	}
+	
+	public String toString(){
+		return "Nome: " + nome + "\nTipo: " + tipo + "\n";
 	}
 
 }

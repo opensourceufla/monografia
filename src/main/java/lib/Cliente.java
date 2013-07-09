@@ -42,5 +42,11 @@ public class Cliente {
 		this.celulares = celulares;
 	}
 	
-	
+	public String toString(){
+		String retorno = "Nome: " + nome + "\nEndereco: " + endereco.toString() + "\n";
+		for (Celular celular : celulares) {
+			retorno += celular.toString();
+		}
+		return retorno;
+	}
 }

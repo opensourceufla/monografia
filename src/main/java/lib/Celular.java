@@ -27,17 +27,7 @@ public class Celular {
 		this.habilitado = true;
 	}
 
-	private void adicionarPromocoes(ArrayList<Promocao> promocoes) {
-		for (Promocao p : promocoes) {
-			if (p.disponivelPara(this) && (!this.plano.getPromocoes().contains(p)))
-				this.plano.getPromocoes().add(p);
-		}
-	}
 	
-	private void randomizarNumero() {
-		Random gerador = new Random();
-		this.setNumero(gerador.nextInt(100000000));
-	}
 	
 	public void adicionarCreditos(double quantidade){
 		if (this.plano.getTipo().equals("Pre-pago")){
@@ -55,12 +45,81 @@ public class Celular {
 			fazerLigacaoPre(ligacao);
 	}
 	
+	
+	public void fazerLigacaoUsandoMinutosOuInternet(Promocao promocao, Ligacao ligacao) {
+		if(promocao.getQuantidade() >= ligacao.getDuracao()){
+			promocao.setQuantidade(promocao.getQuantidade() - ligacao.getDuracao());
+			if (ligacao.getDuracao() > promocao.getFranquia()){
+				promocao.setVelocidadeAtual(promocao.getVelocidadeAlemDaFranquia());
+			}
+			promocao.setFranquia(promocao.getFranquia() - ligacao.getDuracao());
+			ligacao.setValorCobrado(0);
+			this.ligacoes.add(ligacao);
+		}else{
+			fazerLigacaoSemPromocao(ligacao);
+		}		
+	}
+
+	public String recuperarDadosInternet(){
+		Promocao internet = recuperarPromocaoInternet();
+		if (internet != null)
+			return "Franquia: " + internet.getFranquia() +"\nVelocidade atual: " + internet.getVelocidadeAtual() + "\n";
+		return "Nao foi possível recuperar os dados";
+	}
+	
+	public String recuperarValorPos(){
+		double totalDeLigacoes = 0;
+		if (this.getPlano().getTipo().equals("Pos-pago")){
+			for (Ligacao l : this.getLigacoes()) {
+				if (l.getData().after(this.getPlano().getValidade()))
+					totalDeLigacoes += l.getDuracao() * this.getPlano().getValorMinuto();
+			}
+		}
+		return "Total: " + totalDeLigacoes;
+	}
+	
+	public String recuperarCreditosPre(){
+		return "Creditos: " + this.getCreditos() + "\nValidade: " + this.getPlano().getValidade();
+	}
+	
+	public String listarExtratoDeLigacoes(GregorianCalendar data){
+		String retorno = "";
+		for (Ligacao l : this.getLigacoes()) {
+			//if (l.getData().equals(data))
+				retorno += ("Data da ligacao: " + l.getData().DAY_OF_MONTH + "\\" + l.getData().MONTH + "\\" + l.getData().YEAR + "\nDuracao: " + l.getDuracao() + "\nValor cobrado: " + l.getValorCobrado() +"\n");
+		}
+		return retorno;
+	}
+	
+	private Promocao recuperarPromocaoInternet(){
+		for (Promocao p : this.getPlano().getPromocoes()) {
+			if (p.getTipo().equals("Internet")){
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	
+	private void adicionarPromocoes(ArrayList<Promocao> promocoes) {
+		for (Promocao p : promocoes) {
+			if (p.disponivelPara(this) && (!this.plano.getPromocoes().contains(p)))
+				this.plano.getPromocoes().add(p);
+		}
+	}
+	
+	private void randomizarNumero() {
+		Random gerador = new Random();
+		this.setNumero(gerador.nextInt(100000000));
+	}
+	
 	private void fazerLigacaoPos(Ligacao ligacao){
+		ligacao.setValorCobrado(ligacao.getDuracao() * this.getPlano().getValorMinuto());
 		ligacoes.add(ligacao);
 	}
 	
 	private void fazerLigacaoPre(Ligacao ligacao) {
-		Promocao promocao = this.verificarSaldoDePromocao(ligacao);
+		Promocao promocao = this.recuperarPromocao(ligacao);
 		if (promocao == null){
 			fazerLigacaoSemPromocao(ligacao);
 		}else{
@@ -68,8 +127,8 @@ public class Celular {
 			if (promocao.getTipo().equals("Bonus"))	fazerLigacaoUsandoBonus(promocao, ligacao);
 		}
 	}
-
-	private Promocao verificarSaldoDePromocao(Ligacao ligacao){
+	
+	private Promocao recuperarPromocao(Ligacao ligacao){
 		for (Promocao p : this.plano.getPromocoes()) {
 			if (new GregorianCalendar().before(p.getValidade())){
 				if (p.getTipo().equals(ligacao.getTipo())){ //verifica se a ligacao eh do tipo Internet
@@ -84,18 +143,10 @@ public class Celular {
 		return null;
 	}
 	
-	public void fazerLigacaoUsandoMinutosOuInternet(Promocao promocao, Ligacao ligacao) {
-		if(promocao.getQuantidade() >= ligacao.getDuracao()){
-			promocao.setQuantidade(promocao.getQuantidade() - ligacao.getDuracao());
-			this.ligacoes.add(ligacao);
-		}else{
-			fazerLigacaoSemPromocao(ligacao);
-		}		
-	}
-	
 	private void fazerLigacaoUsandoBonus(Promocao promocao, Ligacao ligacao) {
 		if ((promocao.getLimiteDiario() >= ligacao.getDuracao()) && (promocao.getQuantidade() >= (ligacao.getDuracao() * this.plano.getValorMinuto()))){
 			promocao.setQuantidade(promocao.getQuantidade() - (ligacao.getDuracao() * this.plano.getValorMinuto()));
+			ligacao.setValorCobrado(0);
 			this.ligacoes.add(ligacao);
 		}else{
 			fazerLigacaoSemPromocao(ligacao);
@@ -105,9 +156,21 @@ public class Celular {
 	private void fazerLigacaoSemPromocao(Ligacao ligacao) {
 		if (this.creditos > ligacao.getDuracao() * this.plano.getValorMinuto()){
 			this.creditos -= (ligacao.getDuracao() * this.plano.getValorMinuto());
+			ligacao.setValorCobrado(ligacao.getDuracao() * this.plano.getValorMinuto());
+			ligacao.setValorCobrado(ligacao.getDuracao() * this.plano.getValorMinuto());
 			this.ligacoes.add(ligacao);
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public Cliente getCliente() {
 		return cliente;
@@ -163,6 +226,10 @@ public class Celular {
 
 	public void setCreditos(double creditos) {
 		this.creditos = creditos;
+	}
+	
+	public String toString(){
+		return "Numero: " + numero + "\n" + plano.getNome() + "\n" + "Tipo: " + tipo + "\n";
 	}
 	
 }

@@ -125,4 +125,19 @@ public class CelularTest {
 		assertFalse(preSemPromocao.getLigacoes().isEmpty());
 	}
 	
+	@Test
+	public void deveRecuperarOsDadosReferentesAaInternet(){
+		preInternet.fazerLigacao(ligacaoInternet);
+		assertFalse(preInternet.recuperarDadosInternet().equals("Nao foi possível recuperar os dados"));
+	}
+	
+	@Test
+	public void deveListarExtradoDeLigacoes(){
+		preSemPromocao.adicionarCreditos(100000);
+		preSemPromocao.fazerLigacao(ligacao);
+		preSemPromocao.fazerLigacao(ligacao);
+		preSemPromocao.fazerLigacao(ligacao);
+		assertFalse(preSemPromocao.listarExtratoDeLigacoes(new GregorianCalendar()).isEmpty());
+	}
+	
 }
