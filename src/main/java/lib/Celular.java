@@ -48,7 +48,18 @@ public class Celular {
 		}
 	}
 
-	public void fazerLigacao(Ligacao ligacao) {
+	public void fazerLigacao(Ligacao ligacao){
+		if (this.plano.getTipo().equals("Pos-pago")) 
+			fazerLigacaoPos(ligacao);
+		else
+			fazerLigacaoPre(ligacao);
+	}
+	
+	private void fazerLigacaoPos(Ligacao ligacao){
+		ligacoes.add(ligacao);
+	}
+	
+	private void fazerLigacaoPre(Ligacao ligacao) {
 		Promocao promocao = this.verificarSaldoDePromocao(ligacao);
 		if (promocao == null){
 			fazerLigacaoSemPromocao(ligacao);

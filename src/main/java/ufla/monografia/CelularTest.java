@@ -46,7 +46,6 @@ public class CelularTest {
 		
 		ligacao = new Ligacao(1, 60, dataParaLigacoes);
 		ligacaoInternet = new Ligacao(30, dataParaLigacoes);
-		
 	}
 
 	private void setCelulares() {
