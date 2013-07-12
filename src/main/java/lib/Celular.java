@@ -85,7 +85,7 @@ public class Celular {
 	public String listarExtratoDeLigacoes(GregorianCalendar data){
 		String retorno = "";
 		for (Ligacao l : this.getLigacoes()) {
-			//if (l.getData().equals(data))
+			if (l.getData().equals(data))
 				retorno += ("Data da ligacao: " + l.getData().DAY_OF_MONTH + "\\" + l.getData().MONTH + "\\" + l.getData().YEAR + "\nDuracao: " + l.getDuracao() + "\nValor cobrado: " + l.getValorCobrado() +"\n");
 		}
 		return retorno;
